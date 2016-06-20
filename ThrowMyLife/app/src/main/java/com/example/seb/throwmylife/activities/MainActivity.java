@@ -45,22 +45,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        System.out.println("Got here!");
-////        try {
-////            db = new LeaderboardHelper(this);
-////            List<PlainScore> scores = db.getAllHighscores();
-////            System.out.println("Chaos test: " + scores.get(0).getScore());
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////        }
-//
-////        postNewScore(new PlainScore("Someone", 6551, 3221));
-//
-//        getAllScores();
+        RetrofitHelper rh = new RetrofitHelper();
 
-        RetrofitHelper.getAllScores();
-
-
+        rh.getAllScores();
     }
 
     protected void postNewScore(PlainScore plainScore) {

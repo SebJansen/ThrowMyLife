@@ -15,13 +15,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHelper {
 
-    public static void postNewScore(PlainScore plainScore) {
+    final String BASE_URL = "http://192.168.0.11:2403/";
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
-        final String BASE_URL = "http://192.168.0.11:2403/highscores/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void postNewScore(PlainScore plainScore) {
 
         EndpointsInterface apiService = retrofit.create(EndpointsInterface.class);
 
@@ -43,13 +43,7 @@ public class RetrofitHelper {
     }
 
 
-    public static void getAllScores() {
-
-        final String BASE_URL = "http://192.168.0.11:2403/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void getAllScores() {
 
         EndpointsInterface apiService = retrofit.create(EndpointsInterface.class);
 
@@ -75,4 +69,6 @@ public class RetrofitHelper {
         });
     }
 
+    public RetrofitHelper() {
+    }
 }
