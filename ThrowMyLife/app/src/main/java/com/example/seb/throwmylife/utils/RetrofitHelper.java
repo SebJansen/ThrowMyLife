@@ -1,40 +1,78 @@
 package com.example.seb.throwmylife.utils;
 
-import okhttp3.OkHttpClient;
+import com.example.seb.throwmylife.models.PlainScore;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Created by Seb on 20/06/16.
+ */
 public class RetrofitHelper {
-    private String URL = "http://localhost:2403/";
-    private Retrofit retrofit;
 
-    public RetrofitHelper() {
-        this.retrofit = null;
-    }
+    public static void postNewScore(PlainScore plainScore) {
 
-    public RetrofitHelper build(OkHttpClient okHttpClient) {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(this.URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        return this;
-    }
-
-    public RetrofitHelper build() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+        final String BASE_URL = "http://192.168.0.11:2403/highscores/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        return this;
+        EndpointsInterface apiService = retrofit.create(EndpointsInterface.class);
+
+//        PlainScore score1 = new PlainScore("Nick", 7331, 2013);
+        Call<PlainScore> call = apiService.addHighscore(plainScore);
+
+        call.enqueue(new Callback<PlainScore>() {
+            @Override
+            public void onResponse(Call<PlainScore> call, Response<PlainScore> response) {
+                System.out.println("Posted some " + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<PlainScore> call, Throwable t) {
+
+
+            }
+        });
     }
 
-    public Object create(Class c) {
-        if (this.retrofit == null)
-            return this.retrofit;
 
-        return this.retrofit.create(c);
+    public static void getAllScores() {
+
+        final String BASE_URL = "http://192.168.0.11:2403/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        EndpointsInterface apiService = retrofit.create(EndpointsInterface.class);
+
+        Call<List<PlainScore>> call = apiService.getHighscores();
+
+        call.enqueue(new Callback<List<PlainScore>>() {
+            @Override
+            public void onResponse(Call<List<PlainScore>> call, Response<List<PlainScore>> response) {
+                List<PlainScore> scores = response.body();
+
+                System.out.println("Got all scores: \n ");
+
+                for (PlainScore score : scores) {
+                    System.out.println(score);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PlainScore>> call, Throwable t) {
+
+
+            }
+        });
     }
+
 }

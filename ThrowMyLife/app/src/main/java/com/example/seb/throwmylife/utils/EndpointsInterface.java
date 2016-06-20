@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface EndpointsInterface {
 
     @GET("highscores/")
-    rx.Observable<List<PlainScore>> getHighscores();
+    Call<List<PlainScore>> getHighscores();
 
     @POST("/highscores/")
     Call<PlainScore> addHighscore(@Body PlainScore plainScore);
