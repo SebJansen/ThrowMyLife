@@ -2,7 +2,7 @@ package com.example.seb.throwmylife.models;
 
 public class Score {
     private int id;
-    private String player;
+    private String playerName;
     private int score;
     private int date;
 
@@ -10,12 +10,12 @@ public class Score {
     }
 
     public Score(String player, int score) {
-        this.player = player;
+        this.playerName = player;
         this.score = score;
     }
 
     public Score(String player, int score, int date) {
-        this.player = player;
+        this.playerName = player;
         this.score = score;
         this.date = date;
     }
@@ -23,7 +23,7 @@ public class Score {
     public Score(int id, String player, int score, int date) {
         this.date = date;
         this.id = id;
-        this.player = player;
+        this.playerName = player;
         this.score = score;
     }
 
@@ -44,11 +44,11 @@ public class Score {
     }
 
     public String getPlayer() {
-        return player;
+        return playerName;
     }
 
     public void setPlayer(String player) {
-        this.player = player;
+        this.playerName = player;
     }
 
     public int getScore() {
@@ -64,7 +64,7 @@ public class Score {
         return "Score{" +
                 "date=" + date +
                 ", id=" + id +
-                ", player='" + player + '\'' +
+                ", player='" + playerName + '\'' +
                 ", score=" + score +
                 '}';
     }

@@ -2,17 +2,46 @@ package com.example.seb.throwmylife.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.LauncherApps;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.seb.throwmylife.models.PlainScore;
 import com.example.seb.throwmylife.models.Score;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+// new imports
+
 
 public class LeaderboardHelper extends SQLiteOpenHelper {
+
+    private final OkHttpClient client = new OkHttpClient();
+    private final Gson gson = new Gson();
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "LeaderboardDB";
@@ -29,6 +58,8 @@ public class LeaderboardHelper extends SQLiteOpenHelper {
     public LeaderboardHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    private List<PlainScore> allHighscores;
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -64,6 +95,7 @@ public class LeaderboardHelper extends SQLiteOpenHelper {
         db.close();
         Log.d("Add score of " + score.getPlayer(), score.toString());
     }
+
 
 //    public Score getScore(int id) {
 //        SQLiteDatabase db = this.getReadableDatabase();
@@ -233,6 +265,92 @@ public class LeaderboardHelper extends SQLiteOpenHelper {
 
     public static String getTableScores() {
         return TABLE_SCORES;
+    }
+
+//    public void run() throws Exception {
+//        Request request = new Request.Builder()
+//                .url("http://publicobject.com/helloworld.txt")
+//                .build();
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//                Headers responseHeaders = response.headers();
+//                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+//                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//                }
+//
+//                System.out.println(response.body().string());
+//            }
+//        });
+//    }
+
+    public void acquireAllHighscores() throws Exception {
+        Request request = new Request.Builder()
+                .url("http://192.168.0.11:2403/highscores")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                Headers responseHeaders = response.headers();
+                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }
+
+                String jsonArray = response.body().string();
+
+                Type listType = new TypeToken<ArrayList<PlainScore>>() {
+                }.getType();
+
+                List<PlainScore> yourClassList = new Gson().fromJson(jsonArray, listType);
+
+                System.out.println("Poseidon test: " + yourClassList.get(0).getPlayerName());
+
+                allHighscores = new Gson().fromJson(jsonArray, listType);
+
+                System.out.println("Criterion test: " + allHighscores.get(0).getPlayerName());
+
+
+//                Request request = new Request.Builder()
+//                        .url("https://api.github.com/gists/c2a7c39532239ff261be")
+//                        .build();
+//                response = client.newCall(request).execute();
+//                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//                Gist gist = gson.fromJson(response.body().charStream(), Gist.class);
+//                for (Map.Entry<String, GistFile> entry : gist.files.entrySet()) {
+//                    System.out.println(entry.getKey());
+//                    System.out.println(entry.getValue().content);
+//                }
+            }
+
+        });
+    }
+
+    public List<PlainScore> getAllHighscores() throws Exception {
+
+        if (allHighscores != null) {
+            return allHighscores;
+        } else {
+            acquireAllHighscores();
+            return allHighscores;
+        }
     }
 }
 

@@ -7,8 +7,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.seb.throwmylife.R;
+import com.example.seb.throwmylife.models.PlainScore;
+import com.example.seb.throwmylife.utils.LeaderboardHelper;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private LeaderboardHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        System.out.println("Got here!");
+        try {
+            db = new LeaderboardHelper(this);
+            List<PlainScore> scores = db.getAllHighscores();
+            System.out.println("Chaos test: " + scores.get(0).getScore());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

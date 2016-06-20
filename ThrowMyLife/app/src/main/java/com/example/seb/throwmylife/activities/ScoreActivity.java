@@ -13,6 +13,7 @@ import com.example.seb.throwmylife.R;
 import com.example.seb.throwmylife.models.Score;
 import com.example.seb.throwmylife.utils.LeaderboardHelper;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ScoreActivity extends AppCompatActivity {
@@ -59,6 +60,5 @@ public class ScoreActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }
