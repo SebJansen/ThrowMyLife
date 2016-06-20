@@ -67,4 +67,10 @@ public class PlainScore {
                 '}';
     }
 
+
+    public PlainScore(String playerName, int score, int date) {
+        this.playerName = playerName;
+        this.score = score;
+        this.date = date;
+    }
 }
