@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.seb.throwmylife.R;
 import com.example.seb.throwmylife.models.Score;
+import com.example.seb.throwmylife.utils.GPSTracker;
 import com.example.seb.throwmylife.utils.LeaderboardHelper;
 
 import java.io.IOException;
@@ -42,9 +43,21 @@ public class ScoreActivity extends AppCompatActivity {
             String playerExtra = getIntent().getStringExtra("player");
             int scoreExtra = getIntent().getIntExtra("score", -1);
 
+            GPSTracker tracker = new GPSTracker(this);
+            if (!tracker.canGetLocation()) {
+                tracker.showSettingsAlert();
+            } else {
+                double latitude = tracker.getLatitude();
+                double longitude = tracker.getLongitude();
+
+                System.out.println("LATITUDE: " + latitude);
+                System.out.println("LONGITUDE: " + longitude);
+            }
+
+
+
             Score score = new Score(playerExtra, scoreExtra);
             db.addScore(score);
-
         }
 
         simpleCursorAdapter = new SimpleCursorAdapter(this, R.layout.leaderboard_row_item, db.getAllScoresCursor(), columns, to, 0);

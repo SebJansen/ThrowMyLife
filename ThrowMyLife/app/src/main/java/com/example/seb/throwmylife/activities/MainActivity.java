@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
         RetrofitHelper rh = new RetrofitHelper();
 
+//        rh.postNewScore(new PlainScore("Larissa", 866123, 123123));
         rh.getAllScores();
+
     }
 
     protected void postNewScore(PlainScore plainScore) {
