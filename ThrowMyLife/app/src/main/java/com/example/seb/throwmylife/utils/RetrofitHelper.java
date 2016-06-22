@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHelper {
 
-    final String BASE_URL = "http://192.168.0.11:2403/";
+    final String BASE_URL = "http://192.168.0.10:2403/";
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -37,7 +37,7 @@ public class RetrofitHelper {
             @Override
             public void onFailure(Call<PlainScore> call, Throwable t) {
 
-
+                System.out.println("Post of score failed: " + t.toString());
             }
         });
     }
@@ -54,7 +54,7 @@ public class RetrofitHelper {
             public void onResponse(Call<List<PlainScore>> call, Response<List<PlainScore>> response) {
                 List<PlainScore> scores = response.body();
 
-                System.out.println("Got all scores: \n ");
+                System.out.println("Got some: " + response.code() + "\n ");
 
                 for (PlainScore score : scores) {
                     System.out.println(score);
@@ -64,6 +64,7 @@ public class RetrofitHelper {
             @Override
             public void onFailure(Call<List<PlainScore>> call, Throwable t) {
 
+                System.out.println("Get of scores failed: " + t.toString());
 
             }
         });
