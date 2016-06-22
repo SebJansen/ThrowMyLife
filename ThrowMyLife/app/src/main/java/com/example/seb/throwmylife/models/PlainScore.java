@@ -4,6 +4,8 @@ package com.example.seb.throwmylife.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class PlainScore {
 
     @SerializedName("playerName")
@@ -12,50 +14,32 @@ public class PlainScore {
     @SerializedName("score")
     @Expose
     private int score;
-    @SerializedName("date")
+    @SerializedName("location")
     @Expose
-    private int date;
+    private List<String> location;
 
-    /**
-     * @return The playerName
-     */
     public String getPlayerName() {
         return playerName;
     }
 
-    /**
-     * @param playerName The playerName
-     */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    /**
-     * @return The score
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * @param score The score
-     */
     public void setScore(int score) {
         this.score = score;
     }
 
-    /**
-     * @return The date
-     */
-    public int getDate() {
-        return date;
+    public List<String> getLocation() {
+        return location;
     }
 
-    /**
-     * @param date The date
-     */
-    public void setDate(int date) {
-        this.date = date;
+    public void setLocation(List<String> location) {
+        this.location = location;
     }
 
     @Override
@@ -63,14 +47,13 @@ public class PlainScore {
         return "PlainScore{" +
                 "playerName='" + playerName + '\'' +
                 ", score=" + score +
-                ", date=" + date +
+                ", location=" + location +
                 '}';
     }
 
-
-    public PlainScore(String playerName, int score, int date) {
+    public PlainScore(String playerName, int score, List<String> location) {
         this.playerName = playerName;
         this.score = score;
-        this.date = date;
+        this.location = location;
     }
 }

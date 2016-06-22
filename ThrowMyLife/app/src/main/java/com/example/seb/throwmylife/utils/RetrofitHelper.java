@@ -31,13 +31,13 @@ public class RetrofitHelper {
         call.enqueue(new Callback<PlainScore>() {
             @Override
             public void onResponse(Call<PlainScore> call, Response<PlainScore> response) {
-                System.out.println("Posted some " + response.toString());
+                System.out.println("Posted some with message " + response.toString());
             }
 
             @Override
             public void onFailure(Call<PlainScore> call, Throwable t) {
 
-                System.out.println("Post of score failed: " + t.toString());
+                System.out.println("Post of score failed with message " + t.toString());
             }
         });
     }
@@ -54,7 +54,7 @@ public class RetrofitHelper {
             public void onResponse(Call<List<PlainScore>> call, Response<List<PlainScore>> response) {
                 List<PlainScore> scores = response.body();
 
-                System.out.println("Got some: " + response.code() + "\n ");
+                System.out.println("Got some with code " + response.code() + "\n ");
 
                 for (PlainScore score : scores) {
                     System.out.println(score);
@@ -64,7 +64,7 @@ public class RetrofitHelper {
             @Override
             public void onFailure(Call<List<PlainScore>> call, Throwable t) {
 
-                System.out.println("Get of scores failed: " + t.toString());
+                System.out.println("Get of scores failed with message " + t.toString());
 
             }
         });

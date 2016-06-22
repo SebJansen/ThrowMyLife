@@ -12,6 +12,7 @@ import com.example.seb.throwmylife.utils.EndpointsInterface;
 import com.example.seb.throwmylife.utils.LeaderboardHelper;
 import com.example.seb.throwmylife.utils.RetrofitHelper;
 
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         RetrofitHelper rh = new RetrofitHelper();
 
-//        rh.postNewScore(new PlainScore("Larissa", 866123, 123123));
-        rh.getAllScores();
+        rh.postNewScore(new PlainScore("Larissa", 866123, Arrays.asList("+87.689060","-45.044636")));
+//        rh.getAllScores();
 
     }
 }
